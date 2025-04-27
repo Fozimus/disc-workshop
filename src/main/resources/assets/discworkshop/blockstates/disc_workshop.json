@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "discworkshop:block/disc_workshop",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "discworkshop:block/disc_workshop"
+    },
+    "facing=south": {
+      "model": "discworkshop:block/disc_workshop",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "discworkshop:block/disc_workshop",
+      "y": 270
+    }
+  }
+}

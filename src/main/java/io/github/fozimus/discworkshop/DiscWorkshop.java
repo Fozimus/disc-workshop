@@ -1,24 +1,32 @@
 package io.github.fozimus.discworkshop;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
+import io.github.fozimus.discworkshop.init.BlockInit;
+import io.github.fozimus.discworkshop.init.ItemGroupInit;
+import io.github.fozimus.discworkshop.init.ItemInit;
+import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
+
 public class DiscWorkshop implements ModInitializer {
 	public static final String MOD_ID = "discworkshop";
 
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
-		LOGGER.info("Hello Fabric world!");
+        ItemInit.init();
+        BlockInit.init();
+        ItemGroupInit.init();
+        BlockEntityTypeInit.init();
+        ScreenHandlerTypeInit.init();
 	}
+
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
 }
