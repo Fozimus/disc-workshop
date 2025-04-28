@@ -1,86 +1,25 @@
 {
     "parent": "minecraft:block/block",
-    "textures": {
-        "particle": "discworkshop:block/disc_workshop_bottom",
-        "bottom": "discworkshop:block/disc_workshop_bottom",
-        "top": "discworkshop:block/disc_workshop_top",
-        "side": "discworkshop:block/disc_workshop_side",
-        "front": "discworkshop:block/disc_workshop_front",
-        "back": "discworkshop:block/disc_workshop_back"
-    },
-    "elements": [
-        {
-            "from": [
-                0,
-                0,
-                0
-            ],
-            "to": [
-                16,
-                11,
-                16
-            ],
-            "faces": {
-                "down": {
-                    "uv": [
-                        0,
-                        0,
-                        16,
-                        16
-                    ],
-                    "texture": "#bottom",
-                    "cullface": "down"
-                },
-                "up": {
-                    "uv": [
-                        0,
-                        0,
-                        16,
-                        16
-                    ],
-                    "texture": "#top"
-                },
-                "north": {
-                    "uv": [
-                        0,
-                        0,
-                        16,
-                        16
-                    ],
-                    "texture": "#front",
-                    "cullface": "north"
-                },
-                "south": {
-                    "uv": [
-                        0,
-                        0,
-                        16,
-                        16
-                    ],
-                    "texture": "#back",
-                    "cullface": "south"
-                },
-                "west": {
-                    "uv": [
-                        0,
-                        0,
-                        16,
-                        16
-                    ],
-                    "texture": "#side",
-                    "cullface": "west"
-                },
-                "east": {
-                    "uv": [
-                        0,
-                        0,
-                        16,
-                        16
-                    ],
-                    "texture": "#side",
-                    "cullface": "east"
-                }
-            }
-        }
-    ]
+	"textures": {
+		"0": "discworkshop:block/disc_workshop_top",
+		"1": "discworkshop:block/disc_workshop_back",
+		"2": "discworkshop:block/disc_workshop_side",
+		"3": "discworkshop:block/disc_workshop_front",
+		"4": "discworkshop:block/disc_workshop_bottom",
+		"particle": "discworkshop:block/disc_workshop_bottom"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 11, 16],
+			"faces": {
+				"north": {"uv": [0, 5, 16, 16], "texture": "#3", "cullface": "north"},
+				"east": {"uv": [0, 5, 16, 16], "texture": "#2", "cullface": "east"},
+				"south": {"uv": [0, 5, 16, 16], "texture": "#1", "cullface": "south"},
+				"west": {"uv": [0, 5, 16, 16], "texture": "#2", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#4", "cullface": "down"}
+			}
+		}
+	]
 }

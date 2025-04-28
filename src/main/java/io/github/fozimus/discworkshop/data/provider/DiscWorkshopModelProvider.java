@@ -21,7 +21,6 @@ public class DiscWorkshopModelProvider extends FabricModelProvider {
 	@Override
 	public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ItemInit.BLANK_DISC, Models.GENERATED);
-        itemModelGenerator.register(ItemInit.MUSIC_DISC, Models.GENERATED);
 	}
     
 }

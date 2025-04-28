@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "discworkshop:item/music_disc",
+        "layer1": "discworkshop:item/music_disc_overlay_0"
+    }
+}

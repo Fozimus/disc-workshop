@@ -16,6 +16,7 @@ public class BlockInit {
         registerWithItem("disc_workshop", new DiscWorkshopBEBlock(AbstractBlock.Settings.create()
                                                                   .strength(2.0f, 6.0f)
                                                                   .mapColor(MapColor.DIRT_BROWN)
+                                                                  .nonOpaque()
                                                                   .sounds(BlockSoundGroup.WOOD)));
 
     public static <T extends Block> T registerWithItem(String name, T block) {

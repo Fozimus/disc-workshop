@@ -3,6 +3,7 @@
 	"package": "io.github.fozimus.discworkshop.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+        "JukeboxMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

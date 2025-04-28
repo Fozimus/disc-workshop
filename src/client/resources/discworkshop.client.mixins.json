@@ -3,6 +3,7 @@
 	"package": "io.github.fozimus.discworkshop.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+        "SoundLoaderMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

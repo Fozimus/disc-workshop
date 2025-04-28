@@ -1,0 +1,10 @@
+{
+  "sound": {
+    "sounds": [
+      {
+        "name": "discworkshop:sound",
+        "stream": true
+      }
+    ]
+  }
+}
