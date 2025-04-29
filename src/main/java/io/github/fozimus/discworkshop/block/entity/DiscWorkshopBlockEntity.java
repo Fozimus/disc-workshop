@@ -4,7 +4,7 @@ import java.util.stream.IntStream;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
-import io.github.fozimus.discworkshop.init.CompontentTypesInit;
+import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
 import io.github.fozimus.discworkshop.network.DiscWorkshopPayload;
 import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
@@ -18,6 +18,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -83,19 +84,41 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
 	@Override
 	public ItemStack removeStack(int slot) {
         if (!canExtract(slot, getStack(slot), null)) return ItemStack.EMPTY;
-
-        if (slot == 5) {
+        
+        if (slot == 5 && canCraft()) {
+            ItemStack result = getCraftingResult();
             inventory.set(slot, ItemStack.EMPTY);
-            return new ItemStack(RegistryEntry.of(ItemInit.MUSIC_DISC), 1,
-                                 ComponentChanges
-                                 .builder()
-                                 .add(CompontentTypesInit.DISC_URL, url)
-                                 .build());
+            return result;
         }
 
         return getStack(slot).copyAndEmpty();
     }
 
+    public ItemStack getCraftingResult() {
+        if (!canCraft()) return ItemStack.EMPTY;
+        return new ItemStack(RegistryEntry.of(ItemInit.MUSIC_DISC), 1,
+                             ComponentChanges
+                             .builder()
+                             .add(ComponentTypesInit.DISC_URL, url)
+                             .add(ComponentTypesInit.DISC_PATTERN,
+                                  IntStream
+                                  .range(0, inventory.size())
+                                  .filter(i -> i != 5)
+                                  .mapToObj(inventory::get)
+                                  .map(stack -> stack.isEmpty()
+                                       ? (DyeItem)Items.WHITE_DYE
+                                       : (DyeItem)stack.getItem())
+                                  .map(dye -> dye.getColor().getEntityColor())
+                                  .toList())
+                             .build());
+    }
+
+    private boolean canCraft() {
+        if (inventory.get(5).isEmpty()) return false;
+        
+        return !url.isBlank();
+    }
+    
 	@Override
 	public void setStack(int slot, ItemStack stack) {
         inventory.set(slot, stack);

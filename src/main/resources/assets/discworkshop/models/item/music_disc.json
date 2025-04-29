@@ -1,6 +1,7 @@
 {
     "parent": "minecraft:item/template_music_disc",
     "textures": {
-        "layer0": "discworkshop:item/music_disc"
+        "layer0": "discworkshop:item/music_disc",
+        "layer1": "discworkshop:item/music_disc_pixel"
     }
 }
