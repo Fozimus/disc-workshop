@@ -9,7 +9,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
 import io.github.fozimus.discworkshop.audio.ClientAudioHandler;
-import io.github.fozimus.discworkshop.init.CompontentTypesInit;
+import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
 import io.github.fozimus.discworkshop.network.PlaySoundPayload;
@@ -17,13 +17,8 @@ import io.github.fozimus.discworkshop.screen.DiscWorkshopScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.color.item.ItemColorProvider;
-import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.item.BannerItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
@@ -34,12 +29,8 @@ import net.minecraft.util.math.Vec3d;
 
 public class DiscWorkshopClient implements ClientModInitializer {
 	@Override
-	public void onInitializeClient() {
+	public void onInitializeClient() {        
         HandledScreens.register(ScreenHandlerTypeInit.DISC_WORKSHOP, DiscWorkshopScreen::new);
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-                return 0xFF0000;
-            }, ItemInit.MUSIC_DISC);
 
         try {
             AudioDownloader.checkExecutables();
@@ -50,7 +41,7 @@ public class DiscWorkshopClient implements ClientModInitializer {
 
         ItemTooltipCallback.EVENT.register((ItemStack stack, Item.TooltipContext context, TooltipType type, List<Text> lines) -> {
                 if (stack.getItem().equals(ItemInit.MUSIC_DISC)) {
-                    String url = stack.get(CompontentTypesInit.DISC_URL);
+                    String url = stack.get(ComponentTypesInit.DISC_URL);
                     String filename = DigestUtils.sha256Hex(url) + ".ogg";
 
                     if (url.isEmpty()) return;

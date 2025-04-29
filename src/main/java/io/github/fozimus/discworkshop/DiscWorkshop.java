@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import io.github.fozimus.discworkshop.block.entity.DiscWorkshopBlockEntity;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.BlockInit;
-import io.github.fozimus.discworkshop.init.CompontentTypesInit;
+import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemGroupInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
@@ -31,7 +31,7 @@ public class DiscWorkshop implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-        CompontentTypesInit.init();
+        ComponentTypesInit.init();
         ItemInit.init();
         BlockInit.init();
         ItemGroupInit.init();

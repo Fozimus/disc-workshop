@@ -1,6 +1,6 @@
 package io.github.fozimus.discworkshop.sound;
 
-import io.github.fozimus.discworkshop.init.CompontentTypesInit;
+import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.network.PlaySoundPayload;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -19,7 +19,7 @@ public class DiscSound {
     }
 
     public static void play(ServerWorld world, ItemStack stack, BlockPos pos) {
-        String url = stack.get(CompontentTypesInit.DISC_URL);
+        String url = stack.get(ComponentTypesInit.DISC_URL);
 
         if (url == null) return;
         
