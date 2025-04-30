@@ -9,6 +9,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
 import io.github.fozimus.discworkshop.audio.ClientAudioHandler;
+import io.github.fozimus.discworkshop.command.AudioCacheCommand;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
@@ -17,6 +18,7 @@ import io.github.fozimus.discworkshop.network.PlaySoundPayload;
 import io.github.fozimus.discworkshop.renderer.DiscWorkshopBlockEntityRenderer;
 import io.github.fozimus.discworkshop.screen.DiscWorkshopScreen;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -35,6 +37,8 @@ public class DiscWorkshopClient implements ClientModInitializer {
 	public void onInitializeClient() {        
         HandledScreens.register(ScreenHandlerTypeInit.DISC_WORKSHOP, DiscWorkshopScreen::new);
         BlockEntityRendererFactories.register(BlockEntityTypeInit.DISC_WORKSHOP_BLOCK_ENTITY, DiscWorkshopBlockEntityRenderer::new);
+
+        ClientCommandRegistrationCallback.EVENT.register(AudioCacheCommand::register);
         
         try {
             AudioDownloader.checkExecutables();

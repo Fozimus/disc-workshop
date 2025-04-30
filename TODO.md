@@ -7,9 +7,9 @@
   * [ ] Add max download size
   * [ ] Add url whitelist / blacklist
   * [ ] Add selectable quality
-* [ ] Add custom commands
-  * [ ] Command to clear cache
-  * [ ] Command to see cache size
+* [x] Add custom commands
+  * [x] Command to clear cache
+  * [x] Command to see cache size
 * [ ] Create mod icon
 * [ ] Maybe download audio on tooltip to show title
 * [ ] Add url validation
