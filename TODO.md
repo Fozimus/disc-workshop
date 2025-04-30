@@ -1,5 +1,5 @@
 # TODO
-* [ ] Fix disc workshop crafting not consuming dyes
+* [x] Fix disc workshop crafting not consuming dyes
 * [ ] Fix model renderig issue
 * [ ] Create a better readme
 * [ ] Render disc preview while crafting in the disc workshop

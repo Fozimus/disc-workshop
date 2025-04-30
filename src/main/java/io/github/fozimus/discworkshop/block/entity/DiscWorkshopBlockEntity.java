@@ -107,7 +107,7 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
                                   .mapToObj(inventory::get)
                                   .map(stack -> stack.isEmpty()
                                        ? (DyeItem)Items.WHITE_DYE
-                                       : (DyeItem)stack.getItem())
+                                       : (DyeItem)stack.copyAndEmpty().getItem())
                                   .map(dye -> dye.getColor().getEntityColor())
                                   .toList())
                              .build());
