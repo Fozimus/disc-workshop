@@ -9,18 +9,21 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
 import io.github.fozimus.discworkshop.audio.ClientAudioHandler;
+import io.github.fozimus.discworkshop.block.entity.DiscWorkshopBlockEntity;
 import io.github.fozimus.discworkshop.command.AudioCacheCommand;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
 import io.github.fozimus.discworkshop.network.PlaySoundPayload;
+import io.github.fozimus.discworkshop.network.UrlPayload;
 import io.github.fozimus.discworkshop.renderer.DiscWorkshopBlockEntityRenderer;
 import io.github.fozimus.discworkshop.screen.DiscWorkshopScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -47,6 +50,13 @@ public class DiscWorkshopClient implements ClientModInitializer {
             DiscWorkshop.LOGGER.error("Error while downloading executables for {}: {}", DiscWorkshop.MOD_ID, e.getMessage());
         }
 
+        ClientPlayNetworking.registerGlobalReceiver(UrlPayload.ID, (payload, context) -> {
+                BlockEntity be = context.player().getWorld().getBlockEntity(payload.pos());
+                if (be instanceof DiscWorkshopBlockEntity discWorkshopBlockEntity) {
+                    discWorkshopBlockEntity.setUrlFromClient(payload.url());
+                }
+            });
+        
         ItemTooltipCallback.EVENT.register((ItemStack stack, Item.TooltipContext context, TooltipType type, List<Text> lines) -> {
                 if (stack.getItem().equals(ItemInit.MUSIC_DISC)) {
                     String url = stack.get(ComponentTypesInit.DISC_URL);

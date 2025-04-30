@@ -1,5 +1,6 @@
 package io.github.fozimus.discworkshop.screenhandler;
 
+import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.block.entity.DiscWorkshopBlockEntity;
 import io.github.fozimus.discworkshop.init.BlockInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
@@ -17,6 +18,7 @@ public class DiscWorkshopScreenHandler extends ScreenHandler {
     
     public DiscWorkshopScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
         this(syncId, playerInventory, (DiscWorkshopBlockEntity)playerInventory.player.getWorld().getBlockEntity(pos));
+
     }
     
     public DiscWorkshopScreenHandler(int syncId, PlayerInventory playerInventory, DiscWorkshopBlockEntity blockEntity) {

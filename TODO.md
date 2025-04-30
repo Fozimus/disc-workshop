@@ -12,7 +12,7 @@
   * [x] Command to see cache size
 * [ ] Create mod icon
 * [ ] Maybe download audio on tooltip to show title
-* [ ] Add url validation
+* [x] Add url validation
 * [ ] Fix inventory label color
 * [ ] Refactor the code from DiscWorkshopClient
 * [x] Add the crafting preview on top of the disc workshop

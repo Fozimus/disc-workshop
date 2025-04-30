@@ -1,12 +1,18 @@
 package io.github.fozimus.discworkshop.block.entity;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.stream.IntStream;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
+import io.github.fozimus.discworkshop.network.UrlPayload;
 import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,6 +32,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -117,10 +124,18 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
                              .build());
     }
 
+    private boolean isValidURL(String url)  {
+        try {
+            URI.create(url).toURL().toURI();
+            return true;
+        } catch (MalformedURLException | IllegalArgumentException | URISyntaxException e) {
+            return false;
+        }
+    }
+    
     private boolean canCraft() {
         if (inventory.get(5).isEmpty()) return false;
-        
-        return !url.isBlank();
+        return !url.isBlank() && isValidURL(url);
     }
     
 	@Override
@@ -189,9 +204,24 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
         url = nbt.getString("url");
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUrlFromClient(String url) {
+        this.url = url;       
         markDirty();
+
+        DiscWorkshop.LOGGER.info("{} {}", world.isClient ? "Client" : "Server", url);
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;       
+        markDirty();
+
+        DiscWorkshop.LOGGER.info("{} {}", world.isClient ? "Client" : "Server", url);
+        
+        if (world instanceof ServerWorld serverWorld) {
+            for (ServerPlayerEntity player : serverWorld.getPlayers()) {
+                ServerPlayNetworking.send(player, new UrlPayload(url, pos));            
+            }            
+        }
     }
 
     public String getUrl() {

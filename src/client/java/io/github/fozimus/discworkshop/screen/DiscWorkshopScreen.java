@@ -1,7 +1,9 @@
 package io.github.fozimus.discworkshop.screen;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
+import io.github.fozimus.discworkshop.network.UrlPayload;
 import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -32,6 +34,7 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
 		urlField.setEditableColor(-1);
 		urlField.setUneditableColor(-1);
 		urlField.setDrawsBackground(false);
+        urlField.setText(handler.getBlockEntity().getUrl());
 		urlField.setMaxLength(1000);
 		urlField.setChangedListener(this::onUrlChange);
 		addSelectableChild(urlField);
@@ -41,13 +44,16 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        if (!urlField.getText().equals(handler.getBlockEntity().getUrl())) {
+            urlField.setText(handler.getBlockEntity().getUrl());            
+        }
         super.render(context, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(context, mouseX, mouseY);
-		urlField.setText(handler.getBlockEntity().getUrl());
     }
 
     void onUrlChange(String url) {
-        handler.getBlockEntity().setUrl(url);
+         ClientPlayNetworking.send(new UrlPayload(url, handler.getPos()));
+         handler.getBlockEntity().setUrlFromClient(url);
     }
     
 	@Override
