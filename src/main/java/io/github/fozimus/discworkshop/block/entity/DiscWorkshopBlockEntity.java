@@ -84,11 +84,11 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
 	public ItemStack removeStack(int slot) {
         if (!canExtract(slot, getStack(slot), null)) return ItemStack.EMPTY;
 
-        
         ItemStack result;
         if (slot == 5 && canCraft()) {
             result = getCraftingResult();
             inventory.clear();
+            url = "";
         }
         else {
             result = getStack(slot).copyAndEmpty();

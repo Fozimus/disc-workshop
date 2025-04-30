@@ -22,7 +22,6 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
         this.backgroundWidth = 209;
         this.backgroundHeight = 184;
         this.playerInventoryTitleY = 93;
-
     }
 
     @Override
@@ -35,10 +34,8 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
 		urlField.setDrawsBackground(false);
 		urlField.setMaxLength(1000);
 		urlField.setChangedListener(this::onUrlChange);
-		urlField.setText(handler.getBlockEntity().getUrl());
 		addSelectableChild(urlField);
 		urlField.setEditable(true);
-
         addDrawable(urlField);
     }
 
@@ -46,6 +43,7 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(context, mouseX, mouseY);
+		urlField.setText(handler.getBlockEntity().getUrl());
     }
 
     void onUrlChange(String url) {

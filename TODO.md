@@ -16,7 +16,7 @@
 * [ ] Fix inventory label color
 * [ ] Refactor the code from DiscWorkshopClient
 * [x] Add the crafting preview on top of the disc workshop
-* [ ] Clear the disc workshop URL after crafting
+* [x] Clear the disc workshop URL after crafting
 
 
 
