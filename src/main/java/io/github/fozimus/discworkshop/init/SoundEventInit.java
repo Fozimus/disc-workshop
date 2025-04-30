@@ -18,5 +18,7 @@ public class SoundEventInit {
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
 
-    public static void init() {}
+    public static void init() {
+        DiscWorkshop.LOGGER.info("Registering sounds for {}", DiscWorkshop.MOD_ID);
+    }
 }

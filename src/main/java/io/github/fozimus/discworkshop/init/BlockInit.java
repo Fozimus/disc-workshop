@@ -29,5 +29,7 @@ public class BlockInit {
         return Registry.register(Registries.BLOCK, DiscWorkshop.id(name), block);
     }
 
-    public static void init() {}
+    public static void init() {
+        DiscWorkshop.LOGGER.info("Registering blocks for {}", DiscWorkshop.MOD_ID);
+    }
 }

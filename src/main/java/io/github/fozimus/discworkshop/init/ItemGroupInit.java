@@ -27,5 +27,7 @@ public class ItemGroupInit {
         return Registry.register(Registries.ITEM_GROUP, DiscWorkshop.id(name), itemGroup);
     }
 
-    public static void init() {}
+    public static void init() {
+        DiscWorkshop.LOGGER.info("Registering item groups for {}", DiscWorkshop.MOD_ID);
+    }
 }

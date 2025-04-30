@@ -30,5 +30,7 @@ public class ItemInit {
         
     }
 
-    public static void init() {}
+    public static void init() {
+        DiscWorkshop.LOGGER.info("Registering items for {}", DiscWorkshop.MOD_ID);
+    }
 }

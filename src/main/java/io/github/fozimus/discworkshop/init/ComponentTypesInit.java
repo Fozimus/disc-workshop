@@ -19,6 +19,7 @@ public class ComponentTypesInit {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, DiscWorkshop.id(name), builderOperator.apply(ComponentType.builder()).build());
     }
 
-    //TODO: add Logger messages
-    public static void init() {}
+    public static void init() {
+        DiscWorkshop.LOGGER.info("Registering components for {}", DiscWorkshop.MOD_ID);
+    }
 }

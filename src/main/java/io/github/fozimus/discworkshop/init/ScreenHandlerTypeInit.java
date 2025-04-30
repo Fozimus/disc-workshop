@@ -24,5 +24,7 @@ public class ScreenHandlerTypeInit {
         return Registry.register(Registries.SCREEN_HANDLER, DiscWorkshop.id(name), new ExtendedScreenHandlerType<>(factory, codec));
     }
     
-    public static void init() {}
+    public static void init() {
+        DiscWorkshop.LOGGER.info("Registering screens for {}", DiscWorkshop.MOD_ID);
+    }
 }

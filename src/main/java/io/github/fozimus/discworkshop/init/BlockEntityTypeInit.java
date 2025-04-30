@@ -18,5 +18,7 @@ public class BlockEntityTypeInit {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, DiscWorkshop.id(name), type);
     }
 
-    public static void init() {}
+    public static void init() {
+        DiscWorkshop.LOGGER.info("Registering blockentities for {}", DiscWorkshop.MOD_ID);
+    }
 }
