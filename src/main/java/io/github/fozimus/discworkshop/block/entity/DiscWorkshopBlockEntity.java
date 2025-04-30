@@ -84,14 +84,19 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
 	@Override
 	public ItemStack removeStack(int slot) {
         if (!canExtract(slot, getStack(slot), null)) return ItemStack.EMPTY;
+
         
+        ItemStack result;
         if (slot == 5 && canCraft()) {
-            ItemStack result = getCraftingResult();
-            inventory.set(slot, ItemStack.EMPTY);
-            return result;
+            result = getCraftingResult();
+            inventory.clear();
+        }
+        else {
+            result = getStack(slot).copyAndEmpty();
         }
 
-        return getStack(slot).copyAndEmpty();
+        markDirty();
+        return result;
     }
 
     public ItemStack getCraftingResult() {
@@ -107,7 +112,7 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
                                   .mapToObj(inventory::get)
                                   .map(stack -> stack.isEmpty()
                                        ? (DyeItem)Items.WHITE_DYE
-                                       : (DyeItem)stack.copyAndEmpty().getItem())
+                                       : (DyeItem)stack.getItem())
                                   .map(dye -> dye.getColor().getEntityColor())
                                   .toList())
                              .build());
@@ -122,6 +127,7 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
 	@Override
 	public void setStack(int slot, ItemStack stack) {
         inventory.set(slot, stack);
+        markDirty();
 	}
 
 	@Override
@@ -132,6 +138,7 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
 	@Override
 	public void clear() {
         inventory.clear();
+        markDirty();
 	}
 
 	@Override

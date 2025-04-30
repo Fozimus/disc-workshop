@@ -6,8 +6,11 @@ import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.LoomScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -54,7 +57,18 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
     
 	@Override
 	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight); 
+        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
+
+        ItemStack item = handler.getBlockEntity().getCraftingResult();
+
+        if (item.isEmpty()) return;
+
+        MatrixStack matrices = context.getMatrices();
+        
+        matrices.push();
+        matrices.translate(x + 10, y + 5, 0);
+        matrices.scale(5, 5, 1);
+        context.drawItem(item, 0, 0);
+        matrices.pop();
 	}
-    
 }
