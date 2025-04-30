@@ -13,7 +13,7 @@
 * [ ] Create mod icon
 * [ ] Maybe download audio on tooltip to show title
 * [x] Add url validation
-* [ ] Fix inventory label color
+* [x] Fix inventory label color
 * [ ] Refactor the code from DiscWorkshopClient
 * [x] Add the crafting preview on top of the disc workshop
 * [x] Clear the disc workshop URL after crafting

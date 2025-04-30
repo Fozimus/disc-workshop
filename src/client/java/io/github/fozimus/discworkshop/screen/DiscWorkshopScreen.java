@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 
 public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler> {
@@ -21,9 +22,9 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
 
     public DiscWorkshopScreen(DiscWorkshopScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-        this.backgroundWidth = 209;
-        this.backgroundHeight = 184;
-        this.playerInventoryTitleY = 93;
+        backgroundWidth = 209;
+        backgroundHeight = 184;
+        playerInventoryTitleY = 93;       
     }
 
     @Override
@@ -50,6 +51,12 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
         super.render(context, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
+
+    @Override
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+		context.drawText(this.textRenderer, this.title, this.titleX, this.titleY, 0x6f5f58, false);
+		context.drawText(this.textRenderer, this.playerInventoryTitle, this.playerInventoryTitleX, this.playerInventoryTitleY, 0x6f5f58, false);
+	}
 
     void onUrlChange(String url) {
          ClientPlayNetworking.send(new UrlPayload(url, handler.getPos()));
