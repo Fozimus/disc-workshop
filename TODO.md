@@ -14,10 +14,10 @@
 * [ ] Maybe download audio on tooltip to show title
 * [x] Add url validation
 * [x] Fix inventory label color
-* [ ] Refactor the code from DiscWorkshopClient
+* [x] Refactor the code from DiscWorkshopClient and DiscWorkshop
 * [x] Add the crafting preview on top of the disc workshop
 * [x] Clear the disc workshop URL after crafting
-
+1-6n
 
 
 
