@@ -17,7 +17,5 @@
 * [x] Refactor the code from DiscWorkshopClient and DiscWorkshop
 * [x] Add the crafting preview on top of the disc workshop
 * [x] Clear the disc workshop URL after crafting
-1-6n
-
-
+* [ ] Add created disks in the creative tab
 
