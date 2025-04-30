@@ -1,10 +1,8 @@
 package io.github.fozimus.discworkshop.screenhandler;
 
-import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.block.entity.DiscWorkshopBlockEntity;
 import io.github.fozimus.discworkshop.init.BlockInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
-import io.github.fozimus.discworkshop.network.DiscWorkshopPayload;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -16,18 +14,15 @@ import net.minecraft.util.math.BlockPos;
 public class DiscWorkshopScreenHandler extends ScreenHandler {
     private final DiscWorkshopBlockEntity blockEntity;
     private final ScreenHandlerContext context;
-    private final String url;
     
-    public DiscWorkshopScreenHandler(int syncId, PlayerInventory playerInventory, DiscWorkshopPayload payload) {
-        this(syncId, playerInventory, (DiscWorkshopBlockEntity)playerInventory.player.getWorld().getBlockEntity(payload.pos()), payload.url());
+    public DiscWorkshopScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
+        this(syncId, playerInventory, (DiscWorkshopBlockEntity)playerInventory.player.getWorld().getBlockEntity(pos));
     }
     
-    public DiscWorkshopScreenHandler(int syncId, PlayerInventory playerInventory, DiscWorkshopBlockEntity blockEntity, String url) {
+    public DiscWorkshopScreenHandler(int syncId, PlayerInventory playerInventory, DiscWorkshopBlockEntity blockEntity) {
         super(ScreenHandlerTypeInit.DISC_WORKSHOP, syncId);        
         this.blockEntity = blockEntity;
         this.context = ScreenHandlerContext.create(this.blockEntity.getWorld(), this.blockEntity.getPos());
-        this.url = url;
-
         checkSize(blockEntity, 11);
         blockEntity.onOpen(playerInventory.player);
         
@@ -130,8 +125,4 @@ public class DiscWorkshopScreenHandler extends ScreenHandler {
     public BlockPos getPos() {
         return blockEntity.getPos();
     }
-
-    public String getUrl() {
-        return url;
-    }    
 }

@@ -1,7 +1,6 @@
 package io.github.fozimus.discworkshop.init;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
-import io.github.fozimus.discworkshop.network.DiscWorkshopPayload;
 import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.network.RegistryByteBuf;
@@ -15,10 +14,10 @@ import net.minecraft.util.math.BlockPos;
 
 public class ScreenHandlerTypeInit {
     public static final ScreenHandlerType<DiscWorkshopScreenHandler> DISC_WORKSHOP =
-        register("disc_workshop", DiscWorkshopScreenHandler::new, DiscWorkshopPayload.PACKET_CODEC);
+        register("disc_workshop", DiscWorkshopScreenHandler::new, BlockPos.PACKET_CODEC);
 
     
-    public static <T extends ScreenHandler, D extends CustomPayload>
+    public static <T extends ScreenHandler, D>
         ExtendedScreenHandlerType<T, D> register(String name,
                                                  ExtendedScreenHandlerType.ExtendedFactory<T, D> factory,
                                                  PacketCodec<? super RegistryByteBuf, D> codec) {

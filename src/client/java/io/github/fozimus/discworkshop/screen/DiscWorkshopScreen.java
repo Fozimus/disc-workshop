@@ -1,12 +1,9 @@
 package io.github.fozimus.discworkshop.screen;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
-import io.github.fozimus.discworkshop.network.UrlPayload;
 import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.LoomScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -38,7 +35,7 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
 		urlField.setDrawsBackground(false);
 		urlField.setMaxLength(1000);
 		urlField.setChangedListener(this::onUrlChange);
-		urlField.setText(handler.getUrl());
+		urlField.setText(handler.getBlockEntity().getUrl());
 		addSelectableChild(urlField);
 		urlField.setEditable(true);
 
@@ -52,7 +49,7 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
     }
 
     void onUrlChange(String url) {
-        ClientPlayNetworking.send(new UrlPayload(url, handler.getPos()));
+        handler.getBlockEntity().setUrl(url);
     }
     
 	@Override

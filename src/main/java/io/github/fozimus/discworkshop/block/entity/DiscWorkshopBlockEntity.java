@@ -6,7 +6,6 @@ import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
-import io.github.fozimus.discworkshop.network.DiscWorkshopPayload;
 import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -32,7 +31,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInventory,  ExtendedScreenHandlerFactory<DiscWorkshopPayload> {
+public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInventory,  ExtendedScreenHandlerFactory<BlockPos> {
     public static final Text TITLE = Text.translatable("container." + DiscWorkshop.MOD_ID + ".disc_workshop");
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
     private String url = "";
@@ -48,12 +47,12 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
 
 	@Override
 	public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new DiscWorkshopScreenHandler(syncId, playerInventory, this, url);
+        return new DiscWorkshopScreenHandler(syncId, playerInventory, this);
 	}
 
 	@Override
-	public DiscWorkshopPayload getScreenOpeningData(ServerPlayerEntity player) {
-        return new DiscWorkshopPayload(pos, url);
+	public BlockPos getScreenOpeningData(ServerPlayerEntity player) {
+        return pos;
 	}
 
 	@Override

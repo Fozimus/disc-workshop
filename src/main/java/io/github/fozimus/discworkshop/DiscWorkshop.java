@@ -21,7 +21,6 @@ import io.github.fozimus.discworkshop.init.ItemInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
 import io.github.fozimus.discworkshop.init.SoundEventInit;
 import io.github.fozimus.discworkshop.network.PlaySoundPayload;
-import io.github.fozimus.discworkshop.network.UrlPayload;
 
 public class DiscWorkshop implements ModInitializer {
 	public static final String MOD_ID = "discworkshop";
@@ -40,14 +39,6 @@ public class DiscWorkshop implements ModInitializer {
         SoundEventInit.init();
 
         PayloadTypeRegistry.playS2C().register(PlaySoundPayload.ID, PlaySoundPayload.PACKET_CODEC);
-        PayloadTypeRegistry.playC2S().register(UrlPayload.ID, UrlPayload.PACKET_CODEC);
-        
-        ServerPlayNetworking.registerGlobalReceiver(UrlPayload.ID, (payload, context) -> {
-                BlockEntity be = context.player().getWorld().getBlockEntity(payload.pos());
-                if (be instanceof DiscWorkshopBlockEntity discWorkshopBlockEntity) {
-                    discWorkshopBlockEntity.setUrl(payload.url());
-                }
-            });
 	}
 
     public static Identifier id(String path) {
