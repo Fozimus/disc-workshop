@@ -9,6 +9,7 @@
   * [ ] Add selectable quality
 * [ ] Add custom commands
   * [ ] Command to clear cache
+  * [ ] Command to see cache size
 * [ ] Create mod icon
 * [ ] Maybe download audio on tooltip to show title
 * [ ] Add url validation
