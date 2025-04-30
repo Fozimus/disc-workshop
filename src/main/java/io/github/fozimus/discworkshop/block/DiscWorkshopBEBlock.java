@@ -25,14 +25,13 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class DiscWorkshopBEBlock extends BlockWithEntity {
-    protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 11.0, 16.0);
+    public static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 11.0, 16.0);
 
 	public static final DirectionProperty FACING = DirectionProperty.of("facing");
     public static final MapCodec<DiscWorkshopBEBlock> CODEC = DiscWorkshopBEBlock.createCodec(DiscWorkshopBEBlock::new);
     
     public DiscWorkshopBEBlock(Settings settings) {
         super(settings);
-
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
     }
 

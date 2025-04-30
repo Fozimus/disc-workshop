@@ -9,16 +9,19 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
 import io.github.fozimus.discworkshop.audio.ClientAudioHandler;
+import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.ComponentTypesInit;
 import io.github.fozimus.discworkshop.init.ItemInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
 import io.github.fozimus.discworkshop.network.PlaySoundPayload;
+import io.github.fozimus.discworkshop.renderer.DiscWorkshopBlockEntityRenderer;
 import io.github.fozimus.discworkshop.screen.DiscWorkshopScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
@@ -31,7 +34,8 @@ public class DiscWorkshopClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {        
         HandledScreens.register(ScreenHandlerTypeInit.DISC_WORKSHOP, DiscWorkshopScreen::new);
-
+        BlockEntityRendererFactories.register(BlockEntityTypeInit.DISC_WORKSHOP_BLOCK_ENTITY, DiscWorkshopBlockEntityRenderer::new);
+        
         try {
             AudioDownloader.checkExecutables();
         }
