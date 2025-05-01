@@ -7,11 +7,14 @@ You can craft music discs using a disc workshop, these discs can be played in th
 This mod was inspired by [VinURL](https://github.com/Plompi/VinURL) by [Plompi](https://github.com/Plompi).
 
 # Recipes
+## Disc workshop
 ![Discworkshop Recipe](images/disc_workshop_recipe.png)\
 You can use any type of wood.
 
+## Blank disc
 ![Blank Disc Recipe](images/blank_disc_recipe.png)
 
+## Music disc
 ![Music Disc Recipe](images/music_disc_recipe.png)\
 You can use any dye to change the pattern color and insert any url to select the audio.
 
