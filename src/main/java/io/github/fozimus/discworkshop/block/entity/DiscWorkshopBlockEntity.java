@@ -3,7 +3,6 @@ package io.github.fozimus.discworkshop.block.entity;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.stream.IntStream;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
@@ -207,16 +206,12 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
     public void setUrlFromClient(String url) {
         this.url = url;       
         markDirty();
-
-        DiscWorkshop.LOGGER.info("{} {}", world.isClient ? "Client" : "Server", url);
     }
     
     public void setUrl(String url) {
         this.url = url;       
         markDirty();
 
-        DiscWorkshop.LOGGER.info("{} {}", world.isClient ? "Client" : "Server", url);
-        
         if (world instanceof ServerWorld serverWorld) {
             for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                 ServerPlayNetworking.send(player, new UrlPayload(url, pos));            
