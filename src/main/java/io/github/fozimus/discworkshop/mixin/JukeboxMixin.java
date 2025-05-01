@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.init.ItemInit;
 import io.github.fozimus.discworkshop.sound.DiscSound;
 import net.minecraft.block.entity.BlockEntity;
