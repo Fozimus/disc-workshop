@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
@@ -14,10 +16,12 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
+import io.github.fozimus.discworkshop.audio.ClientAudioHandler;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.text.Text;
+import oshi.util.FileUtil;
 
 public class AudioCacheCommand {
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
@@ -25,7 +29,9 @@ public class AudioCacheCommand {
                             .then(ClientCommandManager.literal("size")
                                   .executes(AudioCacheCommand::cacheSize))
                             .then(ClientCommandManager.literal("clear")
-                                  .executes(AudioCacheCommand::clear)));
+                                  .executes(AudioCacheCommand::clearCache))
+                            .then(ClientCommandManager.literal("list")
+                                  .executes(AudioCacheCommand::listCache)));
     }
 
     public static int cacheSize(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
@@ -54,7 +60,7 @@ public class AudioCacheCommand {
     }
 
     
-    public static int clear(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+    public static int clearCache(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         try {
             long size = Files.walk(AudioDownloader.DOWNLOAD_FOLDER)
                 .map(path -> {
@@ -75,6 +81,39 @@ public class AudioCacheCommand {
             }
             else {                
                 context.getSource().sendFeedback(Text.literal(String.format("Deleted %s of cache", FileUtils.byteCountToDisplaySize(size))));
+            }
+            return 1;        
+		}
+        catch (NoSuchFileException e) {
+            context.getSource().sendFeedback(Text.literal(String.format("Cache folder is empty")));
+            return 1;
+        }
+        catch (IOException e) {
+            context.getSource().sendError(Text.literal("Error while deleting cache"));
+            DiscWorkshop.LOGGER.error("Error while deleting cache: {}", e);
+            return -1;
+		}
+    }
+
+        public static int listCache(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        try {
+            List<Path> paths = Files.walk(AudioDownloader.DOWNLOAD_FOLDER).toList();
+
+            context.getSource().sendFeedback(Text.literal("Audio cache list:"));
+            
+            for (Path path : paths) {
+                if (path.toFile().isDirectory()) continue;
+                
+                ClientAudioHandler.fetchDescription(path);
+
+                String desc = ClientAudioHandler.descriptions.getOrDefault(path.getFileName().toString(), "N/A");
+                String size = FileUtils.byteCountToDisplaySize(path.toFile().length());
+                
+                context.getSource().sendFeedback(Text.literal(String.format("%s: %s", desc, size)));
+            }
+                                   
+            if (paths.size() == 0) {
+                context.getSource().sendFeedback(Text.literal(String.format("Cache folder is empty")));
             }
             return 1;        
 		}
