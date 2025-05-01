@@ -44,6 +44,14 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (!client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+        return true;
+    }
+    
+    @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (!urlField.getText().equals(handler.getBlockEntity().getUrl())) {
             urlField.setText(handler.getBlockEntity().getUrl());            
