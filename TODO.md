@@ -11,7 +11,7 @@
   * [x] Command to clear cache
   * [x] Command to see cache size
   * [x] Command to list cache
-* [ ] Create mod icon
+* [x] Create mod icon
 * [ ] Maybe download audio on tooltip to show title
 * [x] Add url validation
 * [x] Fix inventory label color
