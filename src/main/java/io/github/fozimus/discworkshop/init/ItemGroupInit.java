@@ -1,7 +1,5 @@
 package io.github.fozimus.discworkshop.init;
 
-import java.util.Optional;
-
 import io.github.fozimus.discworkshop.DiscWorkshop;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -23,12 +21,8 @@ public class ItemGroupInit {
     }
 
     private static void collectEntries(ItemGroup.DisplayContext displayContext, ItemGroup.Entries entries) {
-        Registries.ITEM.getIds()
-            .stream()
-            .filter(key -> key.getNamespace().equals(DiscWorkshop.MOD_ID))
-            .map(Registries.ITEM::getOrEmpty)
-            .map(Optional::orElseThrow)
-            .forEach(entries::add);
+        entries.add(new ItemStack(BlockInit.DISC_WORKSHOP_BE_BLOCK));
+        entries.add(ItemInit.BLANK_DISC);
     }
         
     public static void init() {
