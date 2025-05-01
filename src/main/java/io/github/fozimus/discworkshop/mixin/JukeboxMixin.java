@@ -23,15 +23,21 @@ public abstract class JukeboxMixin {
 	@Shadow
 	public abstract BlockEntity asBlockEntity();
 
-	@Inject(at = @At("HEAD"), method = "dropRecord")
-	public void dropRecord(CallbackInfo cir) {
-        if (recordStack.getItem() != ItemInit.MUSIC_DISC) return;
-        
+    private boolean hasMusicDisc = true;
+
+    @Inject(at = @At("HEAD"), method = "onRecordStackChanged")
+    private void onRecordStackChanged(boolean hasRecord, CallbackInfo ci) {
+        if (!hasMusicDisc || hasRecord) return;
+
         if (asBlockEntity().getWorld() instanceof ServerWorld serverWorld) {
             DiscSound.stop(serverWorld, asBlockEntity().getPos());
         }
-	}
+        
+        hasMusicDisc = false;
 
+        DiscWorkshop.LOGGER.info("No disc");
+	}
+    
 	@Inject(at = @At("TAIL"), method = "setStack")    
 	public void setStack(ItemStack stack, CallbackInfo cir) {
         if (recordStack.getItem() != ItemInit.MUSIC_DISC) return;
@@ -39,5 +45,8 @@ public abstract class JukeboxMixin {
         if (asBlockEntity().getWorld() instanceof ServerWorld serverWorld) {
             DiscSound.play(serverWorld, recordStack, asBlockEntity().getPos());
         }
+
+        hasMusicDisc = true;
+        DiscWorkshop.LOGGER.info("Disc");
 	}
 }
