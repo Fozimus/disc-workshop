@@ -40,9 +40,10 @@ public class DiscWorkshopBlockEntityRenderer implements BlockEntityRenderer<Disc
 
         matrices.push();
 
-        matrices.translate(0.5f - 1.f / 32.f, DiscWorkshopBEBlock.SHAPE.getMax(Axis.Y) + 1.f / 32.f, 0.5f);
+        matrices.translate(0.5f + 1.f / 32.f, DiscWorkshopBEBlock.SHAPE.getMax(Axis.Y) + 1.f / 32.f, 0.5f);
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
-        matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(180));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
         itemRenderer.renderItem(stack, ModelTransformationMode.GUI, getLigthLevel(entity.getWorld(), entity.getPos()),
                                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
         matrices.pop();
