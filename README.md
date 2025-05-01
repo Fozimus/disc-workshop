@@ -22,7 +22,7 @@ You can use any dye to change the pattern color and insert any url to select the
 
 ## Audiocache
 
-Use `\audiocache` followed by
+Use `/audiocache` followed by
 * `size` to get the total size of the cache
 * `list` to list the cached files
 * `clear` to clear the cache
