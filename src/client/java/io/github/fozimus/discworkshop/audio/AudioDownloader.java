@@ -171,6 +171,7 @@ public class AudioDownloader {
                             "--audio-quality", "96K",
 					        "--audio-format", "vorbis",
 					        "--ffmpeg-location", FFMPEG_EXE.toString(),
+                            "--postprocessor-args", String.format("ffmpeg:-ac 1"),
 					        "-o", String.format("%%(playlist_autonumber&{}|)s%s.%%(ext)s", fileName)
 					    });
 
