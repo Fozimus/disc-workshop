@@ -21,3 +21,4 @@
 * [ ] Add created disks in the creative tab
 * [ ] Add configurable random generated music discs in chests
 * [x] Make sure that only one player at the time can open the disc workshop
+* [ ] Make the sound relative to the position
