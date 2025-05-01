@@ -34,8 +34,6 @@ public abstract class JukeboxMixin {
         }
         
         hasMusicDisc = false;
-
-        DiscWorkshop.LOGGER.info("No disc");
 	}
     
 	@Inject(at = @At("TAIL"), method = "setStack")    
@@ -47,6 +45,5 @@ public abstract class JukeboxMixin {
         }
 
         hasMusicDisc = true;
-        DiscWorkshop.LOGGER.info("Disc");
 	}
 }
