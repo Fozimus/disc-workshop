@@ -1,7 +1,7 @@
 # TODO
 * [x] Fix disc workshop crafting not consuming dyes
 * [ ] Render the music disc using a custom model instead of a mixin of ItemRenderer
-* [ ] Create a better readme
+* [x] Create a better readme
 * [x] Render disc preview while crafting in the disc workshop
 * [x] Add user configs
   * [ ] Add max download size
