@@ -2,7 +2,6 @@ package io.github.fozimus.discworkshop.block;
 
 import com.mojang.serialization.MapCodec;
 
-import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.block.entity.DiscWorkshopBlockEntity;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import net.minecraft.block.Block;

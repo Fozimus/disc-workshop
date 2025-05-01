@@ -59,7 +59,7 @@ public class FileSound implements SoundInstance {
 
 	@Override
 	public float getVolume() {
-        return 1;
+        return 4;
 	}
 
 	@Override

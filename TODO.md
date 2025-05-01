@@ -22,3 +22,4 @@
 * [ ] Add configurable random generated music discs in chests
 * [x] Make sure that only one player at the time can open the disc workshop
 * [ ] Make the sound relative to the position
+* [ ] Fix hopper jukebox interaction
