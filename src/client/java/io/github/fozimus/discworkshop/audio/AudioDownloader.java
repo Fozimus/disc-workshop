@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
+import io.github.fozimus.discworkshop.config.ClientConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
@@ -168,7 +169,7 @@ public class AudioDownloader {
 					process = Runtime.getRuntime().exec(new String[]{
 					        YT_DLP_EXE.toString(), url, "-x", "--no-progress", "--concat-playlist", "always", "--add-metadata",
 					        "-P", DOWNLOAD_FOLDER.toString(), "--break-match-filter", "ext~=3gp|aac|flv|m4a|mov|mp3|mp4|ogg|wav|webm|opus",
-                            "--audio-quality", "96K",
+                            "--audio-quality", ClientConfig.INSTANCE.quality.quality,
 					        "--audio-format", "vorbis",
 					        "--ffmpeg-location", FFMPEG_EXE.toString(),
                             "--postprocessor-args", String.format("ffmpeg:-ac 1"),

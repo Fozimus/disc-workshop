@@ -23,7 +23,10 @@
 		],
 		"fabric-datagen": [
 			"io.github.fozimus.discworkshop.DiscWorkshopDataGenerator"
-		]
+		],
+        "modmenu": [
+            "io.github.fozimus.discworkshop.config.ModMenuIntegration"
+        ]
 	},
 	"mixins": [
 		"discworkshop.mixins.json",

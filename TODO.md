@@ -3,10 +3,10 @@
 * [ ] Render the music disc using a custom model instead of a mixin of ItemRenderer
 * [ ] Create a better readme
 * [x] Render disc preview while crafting in the disc workshop
-* [ ] Add user configs
+* [x] Add user configs
   * [ ] Add max download size
   * [ ] Add url whitelist / blacklist
-  * [ ] Add selectable quality
+  * [x] Add selectable quality
 * [x] Add custom commands
   * [x] Command to clear cache
   * [x] Command to see cache size
@@ -19,6 +19,7 @@
 * [x] Add the crafting preview on top of the disc workshop
 * [x] Clear the disc workshop URL after crafting
 * [ ] Add created disks in the creative tab
+  * This could not be possible
 * [ ] Add configurable random generated music discs in chests
 * [x] Make sure that only one player at the time can open the disc workshop
 * [x] Make the sound relative to the position

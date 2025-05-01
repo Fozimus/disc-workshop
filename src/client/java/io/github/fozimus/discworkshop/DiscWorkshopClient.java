@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
 import io.github.fozimus.discworkshop.command.AudioCacheCommand;
+import io.github.fozimus.discworkshop.config.ClientConfig;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
 import io.github.fozimus.discworkshop.network.ClientPlaySoundPayloadReciver;
@@ -33,6 +34,8 @@ public class DiscWorkshopClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(PlaySoundPayload.ID, ClientPlaySoundPayloadReciver::register);
 
         ItemTooltipCallback.EVENT.register(MusicDiscTooltip::register);
+
+        ClientConfig.init();
         
         try {
             AudioDownloader.checkExecutables();
