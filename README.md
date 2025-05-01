@@ -18,6 +18,15 @@ You can use any type of wood.
 ![Music Disc Recipe](images/music_disc_recipe.png)\
 You can use any dye to change the pattern color and insert any url to select the audio.
 
+# Commands
+
+## Audiocache
+
+Use `\audiocache` followed by
+* `size` to get the total size of the cache
+* `list` to list the cached files
+* `clear` to clear the cache
+
 # Disclaimer
 This mod automatically downloads [FFmpeg](https://www.ffmpeg.org/) and [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
