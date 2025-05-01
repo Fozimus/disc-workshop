@@ -38,6 +38,8 @@ public class DiscWorkshopScreenHandler extends ScreenHandler {
         super.onClosed(player);
 
         blockEntity.onClose(player);
+
+        blockEntity.setEditor(null);
     }
 
     private void addPlayerInventory(PlayerInventory playerInventory) {
@@ -114,7 +116,7 @@ public class DiscWorkshopScreenHandler extends ScreenHandler {
             
         return newStack;
 	}
-
+    
 	@Override
 	public boolean canUse(PlayerEntity player) {
         return canUse(context, player, BlockInit.DISC_WORKSHOP_BE_BLOCK);

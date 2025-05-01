@@ -2,6 +2,7 @@ package io.github.fozimus.discworkshop.block;
 
 import com.mojang.serialization.MapCodec;
 
+import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.block.entity.DiscWorkshopBlockEntity;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import net.minecraft.block.Block;
@@ -39,8 +40,10 @@ public class DiscWorkshopBEBlock extends BlockWithEntity {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity playerEntity, BlockHitResult hit) {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            
-            if (blockEntity instanceof DiscWorkshopBlockEntity discWorkshopBlockEntity && playerEntity != null) {
+
+            if (blockEntity instanceof DiscWorkshopBlockEntity discWorkshopBlockEntity
+                && playerEntity != null && discWorkshopBlockEntity.getEditor() == null) {
+                discWorkshopBlockEntity.setEditor(playerEntity.getUuid());
                 playerEntity.openHandledScreen(discWorkshopBlockEntity);
             }
         }

@@ -3,6 +3,7 @@ package io.github.fozimus.discworkshop.block.entity;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
@@ -38,6 +39,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInventory,  ExtendedScreenHandlerFactory<BlockPos> {
+
+    private UUID editor = null;
     public static final Text TITLE = Text.translatable("container." + DiscWorkshop.MOD_ID + ".disc_workshop");
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(11, ItemStack.EMPTY);
     private String url = "";
@@ -222,4 +225,12 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
     public String getUrl() {
         return url;
     }
+
+	public UUID getEditor() {
+		return editor;
+	}
+
+	public void setEditor(UUID editor) {
+		this.editor = editor;
+	}
 }
