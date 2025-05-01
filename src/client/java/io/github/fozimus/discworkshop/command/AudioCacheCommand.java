@@ -31,7 +31,9 @@ public class AudioCacheCommand {
                             .then(ClientCommandManager.literal("clear")
                                   .executes(AudioCacheCommand::clearCache))
                             .then(ClientCommandManager.literal("list")
-                                  .executes(AudioCacheCommand::listCache)));
+                                  .executes(AudioCacheCommand::listCache))
+                            .then(ClientCommandManager.literal("reload")
+                                  .executes(AudioCacheCommand::reloadCache)));
     }
 
     public static int cacheSize(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
@@ -59,7 +61,11 @@ public class AudioCacheCommand {
 		}
     }
 
-    
+    public static int reloadCache(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        ClientAudioHandler.descriptions.clear();
+        return 1;
+    }
+        
     public static int clearCache(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         try {
             long size = Files.walk(AudioDownloader.DOWNLOAD_FOLDER)

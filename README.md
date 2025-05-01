@@ -26,6 +26,7 @@ Use `/audiocache` followed by
 * `size` to get the total size of the cache
 * `list` to list the cached files
 * `clear` to clear the cache
+* `reload` to reload the cache descriptions
 
 # Disclaimer
 This mod automatically downloads [FFmpeg](https://www.ffmpeg.org/) and [yt-dlp](https://github.com/yt-dlp/yt-dlp).
