@@ -11,7 +11,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 
 public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler> {
@@ -31,21 +30,31 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
     protected void init() {
         super.init();
         urlField = new TextFieldWidget(textRenderer, x + 8, y + 81, 80, 8, Text.literal("Url"));
-        urlField.setFocusUnlocked(false);
+        urlField.setFocusUnlocked(true);
 		urlField.setEditableColor(-1);
 		urlField.setUneditableColor(-1);
 		urlField.setDrawsBackground(false);
         urlField.setText(handler.getBlockEntity().getUrl());
 		urlField.setMaxLength(1000);
 		urlField.setChangedListener(this::onUrlChange);
-		addSelectableChild(urlField);
 		urlField.setEditable(true);
+		addSelectableChild(urlField);
         addDrawable(urlField);
     }
 
     @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (!(mouseX >= urlField.getX() && mouseX < urlField.getX() + urlField.getWidth() &&
+            mouseY >= urlField.getY() && mouseY < urlField.getY() + urlField.getHeight())) {
+            urlField.setFocused(false);
+        }
+        
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (!client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
+        if (!(urlField.isFocused() && client.options.inventoryKey.matchesKey(keyCode, scanCode))) {
             return super.keyPressed(keyCode, scanCode, modifiers);
         }
         return true;
