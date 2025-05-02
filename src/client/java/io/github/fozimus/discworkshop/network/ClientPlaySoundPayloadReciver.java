@@ -2,6 +2,8 @@ package io.github.fozimus.discworkshop.network;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -16,6 +18,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 
 public class ClientPlaySoundPayloadReciver {
+    public static ConcurrentMap<Vec3d, String> toPlay = new ConcurrentHashMap<>();
+    
     public static void register(PlaySoundPayload payload, ClientPlayNetworking.Context context) {
         MinecraftClient client = context.client();
         Vec3d position = payload.position().toCenterPos();
@@ -27,21 +31,25 @@ public class ClientPlaySoundPayloadReciver {
         if (client.player == null) return;
 
         ClientAudioHandler.stopSoundAtPos(position, client);
+        toPlay.remove(position);
         client.inGameHud.setOverlayMessage(Text.literal(""), false);
 
         if (!url.isBlank()) {
             if (!filePath.toFile().exists()) {
+                toPlay.put(position, url);
                 try {
                     AudioDownloader.downloadAudio(client, url, fileName, (success) -> {
                             if (success) {
                                 client.player.sendMessage(Text.literal("Download complete!").formatted(Formatting.GREEN), true);
-                                ClientAudioHandler.fetchDescription(filePath);
-                                if (client.world.getBlockEntity(payload.position()) instanceof JukeboxBlockEntity) {
-                                    ClientAudioHandler.playSound(client, fileName, position, loop);                                    
+                                ClientAudioHandler.fetchDescription(filePath);                                
+                                if (client.world.getBlockEntity(payload.position()) instanceof JukeboxBlockEntity &&
+                                    toPlay.getOrDefault(position, "").equals(url)) {
+                                    ClientAudioHandler.playSound(client, fileName, position, loop);
                                 }
                             } else {
                                 client.player.sendMessage(Text.literal("Download failed!").formatted(Formatting.RED), true);
                             }
+                            toPlay.remove(position);
                         });
                 } catch (IOException e) {
                     DiscWorkshop.LOGGER.error("Error while downloading \"{}\": {}", url, e.getMessage());

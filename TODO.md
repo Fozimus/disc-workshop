@@ -30,3 +30,5 @@
   * Maybe this is not a bug because it happens eaven with vanilla Music Discs
 * [ ] Start the audio playback for the joined player
   * This may require a change of how the sounds are handled
+* [x] Fix audio playback starting eaven if the disk is removed while downloading
+* [ ] Exit gui when E is pressed and textbox is not focused

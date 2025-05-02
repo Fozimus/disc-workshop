@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.jcraft.jorbis.JOrbisException;
 import com.jcraft.jorbis.VorbisFile;
@@ -83,6 +84,7 @@ public class ClientAudioHandler {
     }
     
     public static void playSound(MinecraftClient client, String fileName, Vec3d position, Boolean loop) {
+        ClientAudioHandler.stopSoundAtPos(position, client);
         FileSound sound = new FileSound(fileName, position, loop);
         playing.put(position, sound);
         client.getSoundManager().play(sound);
