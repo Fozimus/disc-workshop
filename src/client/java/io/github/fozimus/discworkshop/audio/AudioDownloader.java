@@ -170,11 +170,9 @@ public class AudioDownloader {
 
         if (downloadCallbacks.containsKey(fileName)) {
             downloadCallbacks.get(fileName).add(callback);
-            DiscWorkshop.LOGGER.info("Already started");
             return;
         }
         else {
-            DiscWorkshop.LOGGER.info("Staring");
             downloadCallbacks.put(fileName, new ArrayList<>(List.of(callback)));
         }
         
