@@ -9,6 +9,7 @@ import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
 import io.github.fozimus.discworkshop.audio.ClientAudioHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -35,7 +36,9 @@ public class ClientPlaySoundPayloadReciver {
                             if (success) {
                                 client.player.sendMessage(Text.literal("Download complete!").formatted(Formatting.GREEN), true);
                                 ClientAudioHandler.fetchDescription(filePath);
-                                ClientAudioHandler.playSound(client, fileName, position, loop);
+                                if (client.world.getBlockEntity(payload.position()) instanceof JukeboxBlockEntity) {
+                                    ClientAudioHandler.playSound(client, fileName, position, loop);                                    
+                                }
                             } else {
                                 client.player.sendMessage(Text.literal("Download failed!").formatted(Formatting.RED), true);
                             }
