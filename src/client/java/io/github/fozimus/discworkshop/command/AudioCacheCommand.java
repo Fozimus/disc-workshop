@@ -72,8 +72,9 @@ public class AudioCacheCommand {
                 .map(path -> {
                         if (path.toFile().isDirectory()) return 0L;
                     
-                        long fileSize = path.toFile().length();
-                        if (path.toFile().delete()) {                        
+                        long fileSize = path.toFile().length();                                               
+                        if (path.toFile().delete()) {
+                            ClientAudioHandler.descriptions.remove(path.getFileName().toString());
                             return fileSize;
                         }
                     
@@ -109,6 +110,7 @@ public class AudioCacheCommand {
             
             for (Path path : paths) {
                 if (path.toFile().isDirectory()) continue;
+                if (!path.getFileName().toString().endsWith(".ogg")) continue;
                 
                 ClientAudioHandler.fetchDescription(path);
 
