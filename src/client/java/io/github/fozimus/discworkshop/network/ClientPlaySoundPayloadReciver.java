@@ -31,16 +31,15 @@ public class ClientPlaySoundPayloadReciver {
         if (!url.isBlank()) {
             if (!filePath.toFile().exists()) {
                 try {
-                    AudioDownloader.downloadAudio(client, url, fileName)
-                        .thenAccept((success) -> {
-                                if (success) {
-                                    client.player.sendMessage(Text.literal("Download complete!").formatted(Formatting.GREEN), true);
-                                    ClientAudioHandler.fetchDescription(filePath);
-                                    ClientAudioHandler.playSound(client, fileName, position, loop);
-                                } else {
-                                    client.player.sendMessage(Text.literal("Download failed!").formatted(Formatting.RED), true);
-                                }
-                            });
+                    AudioDownloader.downloadAudio(client, url, fileName, (success) -> {
+                            if (success) {
+                                client.player.sendMessage(Text.literal("Download complete!").formatted(Formatting.GREEN), true);
+                                ClientAudioHandler.fetchDescription(filePath);
+                                ClientAudioHandler.playSound(client, fileName, position, loop);
+                            } else {
+                                client.player.sendMessage(Text.literal("Download failed!").formatted(Formatting.RED), true);
+                            }
+                        });
                 } catch (IOException e) {
                     DiscWorkshop.LOGGER.error("Error while downloading \"{}\": {}", url, e.getMessage());
                     return;

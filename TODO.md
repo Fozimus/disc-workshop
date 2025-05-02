@@ -25,4 +25,8 @@
 * [x] Make the sound relative to the position
 * [x] Fix hopper jukebox interaction
 * [x] Prevent players far from the jukebox to download the audio
-* [ ] Stop multiple simultaneus download of the same url
+* [x] Stop multiple simultaneus download of the same url
+* [ ] Fix the audio stopping when putting the volume to zero
+  * Maybe this is not a bug because it happens eaven with vanilla Music Discs
+* [ ] Start the audio playback for the joined player
+  * This may require a change of how the sounds are handled

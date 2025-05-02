@@ -13,7 +13,11 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -45,6 +49,8 @@ public class AudioDownloader {
     private static final String FFMPEG_ZIP_FILENAME = "ffmpeg" + (SystemUtils.IS_OS_WINDOWS ? ".exe" : "");
 
     public static final Path DOWNLOAD_FOLDER = DiscWorkshop.MODPATH.resolve("downloads");
+
+    private static ConcurrentHashMap<String, List<Consumer<Boolean>>> downloadCallbacks = new ConcurrentHashMap<>();
     
     private static final Path getExePath(String name) {
         if (name.endsWith(".zip")) {
@@ -151,7 +157,7 @@ public class AudioDownloader {
         downloadIfNeeded(FFMPEG_REPO, FFMPEG_DOWNLOAD_NAME, FFMPEG_EXE, FFMPEG_ZIP_FILENAME);
     }
 
-    public static CompletableFuture<Boolean> downloadAudio(MinecraftClient client, String url, String fileName) throws IOException {
+    public static void downloadAudio(MinecraftClient client, String url, String fileName, Consumer<Boolean> callback) throws IOException {
         DOWNLOAD_FOLDER.toFile().mkdirs();
 
         if (!FFMPEG_EXE.toFile().exists()) {
@@ -162,19 +168,29 @@ public class AudioDownloader {
             throw new FileNotFoundException(YT_DLP_EXE.toString());
         }
 
-        return CompletableFuture.supplyAsync(() -> {
+        if (downloadCallbacks.containsKey(fileName)) {
+            downloadCallbacks.get(fileName).add(callback);
+            DiscWorkshop.LOGGER.info("Already started");
+            return;
+        }
+        else {
+            DiscWorkshop.LOGGER.info("Staring");
+            downloadCallbacks.put(fileName, new ArrayList<>(List.of(callback)));
+        }
+        
+        CompletableFuture.supplyAsync(() -> {
                 Process process;
-				try {
+                try {
                     client.player.sendMessage(Text.literal("Downloading..."), true);
-					process = Runtime.getRuntime().exec(new String[]{
-					        YT_DLP_EXE.toString(), url, "-x", "--no-progress", "--concat-playlist", "always", "--add-metadata",
-					        "-P", DOWNLOAD_FOLDER.toString(), "--break-match-filter", "ext~=3gp|aac|flv|m4a|mov|mp3|mp4|ogg|wav|webm|opus",
+                    process = Runtime.getRuntime().exec(new String[]{
+                            YT_DLP_EXE.toString(), url, "-x", "--no-progress", "--concat-playlist", "always", "--add-metadata",
+                            "-P", DOWNLOAD_FOLDER.toString(), "--break-match-filter", "ext~=3gp|aac|flv|m4a|mov|mp3|mp4|ogg|wav|webm|opus",
                             "--audio-quality", ClientConfig.INSTANCE.quality.quality,
-					        "--audio-format", "vorbis",
-					        "--ffmpeg-location", FFMPEG_EXE.toString(),
+                            "--audio-format", "vorbis",
+                            "--ffmpeg-location", FFMPEG_EXE.toString(),
                             "--postprocessor-args", String.format("ffmpeg:-ac 1"),
-					        "-o", String.format("%%(playlist_autonumber&{}|)s%s.%%(ext)s", fileName)
-					    });
+                            "-o", String.format("%%(playlist_autonumber&{}|)s%s.%%(ext)s", fileName)
+                        });
 
                     try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
                         for (String line; (line = errorReader.readLine()) != null;) {
@@ -194,9 +210,14 @@ public class AudioDownloader {
                         DiscWorkshop.LOGGER.error("Command failed with exit code: {}", process.exitValue());
                         return false;
                     }
-				} catch (IOException | InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     return false;
-				}
-            });
+                }
+            }).thenAcceptAsync(result -> {
+                    for (Consumer<Boolean> consumer : downloadCallbacks.get(fileName)) {
+                        consumer.accept(result);
+                    }
+                    downloadCallbacks.remove(fileName);
+                });
     }
 }
