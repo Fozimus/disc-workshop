@@ -63,9 +63,11 @@ public class MusicDiscTooltip {
                                 linesIterator.add(Text.literal("Dowloading"));                                
                             }
                             return;
+                        }                        
+                        else if (!AudioDownloader.downloadCallbacks.containsKey(url)) {
+                            ClientAudioHandler.fetchDescription(filePath);                            
                         }
-                        ClientAudioHandler.fetchDescription(filePath);
-                        linesIterator.add(Text.literal(ClientAudioHandler.descriptions.getOrDefault(fileName + ".ogg", "[No description]")));
+                        linesIterator.add(Text.literal(ClientAudioHandler.descriptions.getOrDefault(fileName + ".ogg", "")));
                     }
                 }
 

@@ -59,7 +59,7 @@ public class ClientPlaySoundPayloadReciver {
                     return;
                 }
             }
-            else {
+            else if (!AudioDownloader.downloadCallbacks.containsKey(url)) {
                 ClientAudioHandler.fetchDescription(filePath);
                 ClientAudioHandler.playSound(fileName, position, loop);
             }

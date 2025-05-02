@@ -44,6 +44,7 @@ public class ClientAudioHandler {
     }
 
     private static String getOggAttribute(Path file, String attribute) throws JOrbisException {
+        String value;
         VorbisFile vorbisFile = null;
         try {
             vorbisFile = new VorbisFile(file.toString());
@@ -51,35 +52,35 @@ public class ClientAudioHandler {
             String metadata = vorbisFile.getComment(0).toString();
 
             String filter = "Comment: " + attribute + "=";
-            return Arrays.stream(metadata.split("\n"))
+            value = Arrays.stream(metadata.split("\n"))
                 .filter(line -> line.startsWith(filter))
                 .map(line -> line.substring(filter.length()))
                 .findFirst()
                 .orElse("N/A");
 
-        } 
+        }
         finally {
             if (vorbisFile != null) {
                 try {
 					vorbisFile.close();
-				} catch (IOException e) {
+				} catch (IOException | NullPointerException e) {
 					DiscWorkshop.LOGGER.error("Error while closing vorbis file {}", e.getMessage());
 				}
             }
         }
+        return value == null ? "N/A" : value;
     }
 
     public static void fetchDescription(Path file) {
         if (descriptions.containsKey(file.getFileName().toString())) return;
         if (!file.toFile().exists()) return;
-        try {
-                
+        try {                
             descriptions.put(file.getFileName().toString(),
                              String.format("%s - %s",
                                            getOggAttribute(file, "artist"),
                                            getOggAttribute(file, "title")));
         }
-        catch (JOrbisException e) {
+        catch (JOrbisException | NullPointerException e) {
             DiscWorkshop.LOGGER.warn("Failed to get ogg attributes: {}", e.getMessage());
         }
     }
@@ -91,7 +92,7 @@ public class ClientAudioHandler {
         playing.put(position, sound);
         client.getSoundManager().play(sound);
         for (Entry<String, String> set : descriptions.entrySet()) {
-            client.inGameHud.setRecordPlayingOverlay(Text.literal(descriptions.getOrDefault(fileName + ".ogg", "[No description]")));
+            client.inGameHud.setRecordPlayingOverlay(Text.literal(descriptions.getOrDefault(fileName + ".ogg", "music disc")));
         }
     }
 }
