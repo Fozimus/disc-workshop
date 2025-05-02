@@ -12,7 +12,7 @@
   * [x] Command to see cache size
   * [x] Command to list cache
 * [x] Create mod icon
-* [ ] Maybe download audio on tooltip to show title
+* [x] Maybe download audio on tooltip to show title
 * [x] Add url validation
 * [x] Fix inventory label color
 * [x] Refactor the code from DiscWorkshopClient and DiscWorkshop

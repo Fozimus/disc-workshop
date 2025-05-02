@@ -30,7 +30,7 @@ public class ClientPlaySoundPayloadReciver {
 
         if (client.player == null) return;
 
-        ClientAudioHandler.stopSoundAtPos(position, client);
+        ClientAudioHandler.stopSoundAtPos(position);
         toPlay.remove(position);
         client.inGameHud.setOverlayMessage(Text.literal(""), false);
 
@@ -38,13 +38,16 @@ public class ClientPlaySoundPayloadReciver {
             if (!filePath.toFile().exists()) {
                 toPlay.put(position, url);
                 try {
-                    AudioDownloader.downloadAudio(client, url, fileName, (success) -> {
+                    if (!AudioDownloader.downloadCallbacks.containsKey(url)) {
+                        MinecraftClient.getInstance().player.sendMessage(Text.literal("Downloading..."), true);                        
+                    }
+                    AudioDownloader.downloadAudio(url, fileName, (success) -> {
                             if (success) {
                                 client.player.sendMessage(Text.literal("Download complete!").formatted(Formatting.GREEN), true);
                                 ClientAudioHandler.fetchDescription(filePath);                                
                                 if (client.world.getBlockEntity(payload.position()) instanceof JukeboxBlockEntity &&
                                     toPlay.getOrDefault(position, "").equals(url)) {
-                                    ClientAudioHandler.playSound(client, fileName, position, loop);
+                                    ClientAudioHandler.playSound(fileName, position, loop);
                                 }
                             } else {
                                 client.player.sendMessage(Text.literal("Download failed!").formatted(Formatting.RED), true);
@@ -58,7 +61,7 @@ public class ClientPlaySoundPayloadReciver {
             }
             else {
                 ClientAudioHandler.fetchDescription(filePath);
-                ClientAudioHandler.playSound(client, fileName, position, loop);
+                ClientAudioHandler.playSound(fileName, position, loop);
             }
         }
     }

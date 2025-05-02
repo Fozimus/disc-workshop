@@ -32,7 +32,8 @@ public class ClientAudioHandler {
         }
     }
 
-    public static void stopSoundAtPos(Vec3d position, MinecraftClient client) {
+    public static void stopSoundAtPos(Vec3d position) {
+        MinecraftClient client = MinecraftClient.getInstance();        
         FileSound currentSound = playing.get(position);
 
         if (currentSound != null) {
@@ -83,8 +84,9 @@ public class ClientAudioHandler {
         }
     }
     
-    public static void playSound(MinecraftClient client, String fileName, Vec3d position, Boolean loop) {
-        ClientAudioHandler.stopSoundAtPos(position, client);
+    public static void playSound(String fileName, Vec3d position, Boolean loop) {
+        MinecraftClient client = MinecraftClient.getInstance();        
+        ClientAudioHandler.stopSoundAtPos(position);
         FileSound sound = new FileSound(fileName, position, loop);
         playing.put(position, sound);
         client.getSoundManager().play(sound);

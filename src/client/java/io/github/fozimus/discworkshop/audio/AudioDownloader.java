@@ -50,7 +50,7 @@ public class AudioDownloader {
 
     public static final Path DOWNLOAD_FOLDER = DiscWorkshop.MODPATH.resolve("downloads");
 
-    private static ConcurrentHashMap<String, List<Consumer<Boolean>>> downloadCallbacks = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, List<Consumer<Boolean>>> downloadCallbacks = new ConcurrentHashMap<>();
     
     private static final Path getExePath(String name) {
         if (name.endsWith(".zip")) {
@@ -157,7 +157,7 @@ public class AudioDownloader {
         downloadIfNeeded(FFMPEG_REPO, FFMPEG_DOWNLOAD_NAME, FFMPEG_EXE, FFMPEG_ZIP_FILENAME);
     }
 
-    public static void downloadAudio(MinecraftClient client, String url, String fileName, Consumer<Boolean> callback) throws IOException {
+    public static void downloadAudio(String url, String fileName, Consumer<Boolean> callback) throws IOException {
         DOWNLOAD_FOLDER.toFile().mkdirs();
 
         if (!FFMPEG_EXE.toFile().exists()) {
@@ -168,18 +168,17 @@ public class AudioDownloader {
             throw new FileNotFoundException(YT_DLP_EXE.toString());
         }
 
-        if (downloadCallbacks.containsKey(fileName)) {
-            downloadCallbacks.get(fileName).add(callback);
+        if (downloadCallbacks.containsKey(url)) {
+            downloadCallbacks.get(url).add(callback);
             return;
         }
         else {
-            downloadCallbacks.put(fileName, new ArrayList<>(List.of(callback)));
+            downloadCallbacks.put(url, new ArrayList<>(List.of(callback)));
         }
         
         CompletableFuture.supplyAsync(() -> {
                 Process process;
                 try {
-                    client.player.sendMessage(Text.literal("Downloading..."), true);
                     process = Runtime.getRuntime().exec(new String[]{
                             YT_DLP_EXE.toString(), url, "-x", "--no-progress", "--concat-playlist", "always", "--add-metadata",
                             "-P", DOWNLOAD_FOLDER.toString(), "--break-match-filter", "ext~=3gp|aac|flv|m4a|mov|mp3|mp4|ogg|wav|webm|opus",
@@ -212,10 +211,10 @@ public class AudioDownloader {
                     return false;
                 }
             }).thenAcceptAsync(result -> {
-                    for (Consumer<Boolean> consumer : downloadCallbacks.get(fileName)) {
+                    for (Consumer<Boolean> consumer : downloadCallbacks.get(url)) {
                         consumer.accept(result);
                     }
-                    downloadCallbacks.remove(fileName);
+                    downloadCallbacks.remove(url);
                 });
     }
 }
