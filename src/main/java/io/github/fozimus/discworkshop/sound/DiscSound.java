@@ -12,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class DiscSound {
 
+    private static int JUKEBOX_RANGE = 64;
+    
     public static void stop(ServerWorld world, BlockPos pos) {
         for (ServerPlayerEntity player : PlayerLookup.world((ServerWorld)world)) {
             ServerPlayNetworking.send(player, new PlaySoundPayload(pos, "", false));
@@ -24,7 +26,9 @@ public class DiscSound {
         if (url == null) return;
         
         for (ServerPlayerEntity player : PlayerLookup.world((ServerWorld)world)) {
-            ServerPlayNetworking.send(player, new PlaySoundPayload(pos, url, false));
+            if (player.getPos().distanceTo(pos.toCenterPos()) < JUKEBOX_RANGE) {
+                ServerPlayNetworking.send(player, new PlaySoundPayload(pos, url, false));                
+            }
         }
     }
     
