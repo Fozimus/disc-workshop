@@ -24,3 +24,5 @@
 * [x] Make sure that only one player at the time can open the disc workshop
 * [x] Make the sound relative to the position
 * [x] Fix hopper jukebox interaction
+* [ ] Prevent players far from the jukebox to download the audio
+* [ ] Stop multiple simultaneus download of the same url
