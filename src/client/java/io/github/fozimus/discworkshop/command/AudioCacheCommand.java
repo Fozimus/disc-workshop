@@ -107,6 +107,8 @@ public class AudioCacheCommand {
             List<Path> paths = Files.walk(AudioDownloader.DOWNLOAD_FOLDER).toList();
 
             context.getSource().sendFeedback(Text.literal("Audio cache list:"));
+
+            int count = 0;
             
             for (Path path : paths) {
                 if (path.toFile().isDirectory()) continue;
@@ -118,15 +120,16 @@ public class AudioCacheCommand {
                 String size = FileUtils.byteCountToDisplaySize(path.toFile().length());
                 
                 context.getSource().sendFeedback(Text.literal(String.format("%s: %s", desc, size)));
+                count += 1;
             }
                                    
-            if (paths.size() == 0) {
-                context.getSource().sendFeedback(Text.literal(String.format("Cache folder is empty")));
+            if (count == 0) {
+                context.getSource().sendFeedback(Text.literal(String.format("[empty]")));
             }
             return 1;        
 		}
         catch (NoSuchFileException e) {
-            context.getSource().sendFeedback(Text.literal(String.format("Cache folder is empty")));
+            context.getSource().sendFeedback(Text.literal(String.format("[empty]")));
             return 1;
         }
         catch (IOException e) {
