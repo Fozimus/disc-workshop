@@ -41,8 +41,6 @@ public class DiscWorkshopLanguageProvider extends FabricLanguageProvider {
 
         addText(translationBuilder, Text.translatable("item.discworkshop.music_disc.desc"), "Empty");
         addText(translationBuilder, Text.translatable("text.autoconfig.discworkshop.option.quality"), "Quality");
-        addText(translationBuilder, Text.translatable("text.autoconfig.discworkshop.option.quality$Tooltip"), "Sets the downloaded audio quality. (LOW = 48K, MEDIUM = 96K, HIGH = 128K)");
-	}
-
-	
+        addText(translationBuilder, Text.translatable("text.autoconfig.discworkshop.option.quality.@Tooltip"), "Sets the downloaded audio quality. (LOW = 48K, MEDIUM = 96K, HIGH = 128K)");
+	}	
 }
