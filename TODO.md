@@ -34,3 +34,4 @@
 * [x] Fix audio playback starting eaven if the disk is removed while downloading
 * [x] Exit gui when E is pressed and textbox is not focused
 * [ ] Limit simultaneus download count
+* [ ] Grant the player a way to check the song that is playing on a jukebox
