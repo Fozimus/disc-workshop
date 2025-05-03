@@ -7,6 +7,7 @@
   * [ ] Add max download size
   * [ ] Add url whitelist / blacklist
   * [x] Add selectable quality
+  * [ ] Download on tooltip
 * [x] Add custom commands
   * [x] Command to clear cache
   * [x] Command to see cache size
@@ -32,3 +33,4 @@
   * This may require a change of how the sounds are handled
 * [x] Fix audio playback starting eaven if the disk is removed while downloading
 * [x] Exit gui when E is pressed and textbox is not focused
+* [ ] Limit simultaneus download count
