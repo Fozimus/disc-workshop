@@ -3,13 +3,14 @@
 	"id": "discworkshop",
 	"version": "${version}",
 	"name": "Disc Workshop",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "You can craft music discs using a disc workshop, these discs can be played in the jukebox to listen to any hosted audio via URL.",
 	"authors": [
-		"Me!"
+		"Fozimus",
+        "Rojaha"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/disc-workshop",
+		"sources": "https://github.com/Fozimus/disc-workshop"
 	},
 	"license": "CC BY-NC 4.0",
 	"icon": "assets/discworkshop/icon.png",
