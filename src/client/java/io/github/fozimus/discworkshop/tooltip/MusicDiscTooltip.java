@@ -60,7 +60,7 @@ public class MusicDiscTooltip {
                                 }
                             }
                             else {
-                                linesIterator.add(Text.literal("Dowloading"));                                
+                                linesIterator.add(Text.literal("Downloading"));                                
                             }
                             return;
                         }                        
