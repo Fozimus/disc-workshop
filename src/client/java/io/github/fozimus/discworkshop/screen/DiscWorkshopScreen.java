@@ -77,7 +77,7 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
 
     void onUrlChange(String url) {
          ClientPlayNetworking.send(new UrlPayload(url, handler.getPos()));
-         handler.getBlockEntity().setUrlFromClient(url);
+         handler.getBlockEntity().setUrl(url);
     }
     
 	@Override

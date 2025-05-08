@@ -8,7 +8,7 @@ public class ClientUrlPayloadReciver {
     public static void register(UrlPayload payload, ClientPlayNetworking.Context context) {
         BlockEntity be = context.player().getWorld().getBlockEntity(payload.pos());
         if (be instanceof DiscWorkshopBlockEntity discWorkshopBlockEntity) {
-            discWorkshopBlockEntity.setUrlFromClient(payload.url());
+            discWorkshopBlockEntity.setUrl(payload.url());
         }
 
     }

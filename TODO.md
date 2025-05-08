@@ -35,4 +35,4 @@
 * [x] Exit gui when E is pressed and textbox is not focused
 * [ ] Limit simultaneus download count
 * [ ] Grant the player a way to check the song that is playing on a jukebox
-* [ ] Fix entity model renderer of discworkshop on server
+* [x] Fix entity model renderer of discworkshop on server

@@ -206,9 +206,17 @@ public class DiscWorkshopBlockEntity extends BlockEntity implements SidedInvento
         url = nbt.getString("url");
     }
 
-    public void setUrlFromClient(String url) {
+    public void setUrlFromClient(String url, UUID client) {
         this.url = url;       
         markDirty();
+
+        if (world instanceof ServerWorld serverWorld) {
+            for (ServerPlayerEntity player : serverWorld.getPlayers()) {
+                if (!player.getUuid().equals(client)) {
+                    ServerPlayNetworking.send(player, new UrlPayload(url, pos));
+                }
+            }            
+        }
     }
     
     public void setUrl(String url) {
