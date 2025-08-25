@@ -12,7 +12,7 @@ public record PlaySoundPayload(BlockPos position, String url, boolean loop) impl
     public static final PacketCodec<RegistryByteBuf, PlaySoundPayload> PACKET_CODEC =
         PacketCodec.tuple(BlockPos.PACKET_CODEC, PlaySoundPayload::position,
                           PacketCodecs.STRING, PlaySoundPayload::url,
-                          PacketCodecs.BOOL, PlaySoundPayload::loop,
+                          PacketCodecs.BOOLEAN, PlaySoundPayload::loop,
                           PlaySoundPayload::new);
     
 	@Override

@@ -5,6 +5,7 @@ import java.io.IOException;
 import io.github.fozimus.discworkshop.audio.AudioDownloader;
 import io.github.fozimus.discworkshop.command.AudioCacheCommand;
 import io.github.fozimus.discworkshop.config.ClientConfig;
+import io.github.fozimus.discworkshop.data.model.MusicDiscItemModel;
 import io.github.fozimus.discworkshop.init.BlockEntityTypeInit;
 import io.github.fozimus.discworkshop.init.ScreenHandlerTypeInit;
 import io.github.fozimus.discworkshop.network.ClientPlaySoundPayloadReciver;
@@ -20,6 +21,7 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.item.model.ItemModelTypes;
 
 public class DiscWorkshopClient implements ClientModInitializer {
 	@Override
@@ -36,6 +38,8 @@ public class DiscWorkshopClient implements ClientModInitializer {
         ItemTooltipCallback.EVENT.register(MusicDiscTooltip::register);
 
         ClientConfig.init();
+
+        ItemModelTypes.ID_MAPPER.put(DiscWorkshop.id("music_disc"), MusicDiscItemModel.Unbaked.CODEC);
         
         try {
             AudioDownloader.checkExecutables();

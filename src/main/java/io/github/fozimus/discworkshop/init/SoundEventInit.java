@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class SoundEventInit {
     public static final SoundEvent SOUND = register("sound");
-    public static final RegistryKey<JukeboxSong> SOUND_KEY = RegistryKey.of(RegistryKeys.JUKEBOX_SONG, SOUND.getId());
+    public static final RegistryKey<JukeboxSong> SOUND_KEY = RegistryKey.of(RegistryKeys.JUKEBOX_SONG, SOUND.id());
     
     public static SoundEvent register(String name) {
         Identifier id = DiscWorkshop.id(name);

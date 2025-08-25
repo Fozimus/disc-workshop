@@ -2,7 +2,7 @@ package io.github.fozimus.discworkshop.data.provider;
 
 import java.util.concurrent.CompletableFuture;
 
-import io.github.fozimus.discworkshop.init.BlockInit;
+import io.github.fozimus.discworkshop.DiscWorkshop;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.registry.RegistryWrapper;
@@ -17,8 +17,8 @@ public class DiscWorkshopBlockTagProvider extends FabricTagProvider.BlockTagProv
     
 	@Override
 	protected void configure(WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-            .add(BlockInit.DISC_WORKSHOP_BE_BLOCK);
+        getTagBuilder(BlockTags.AXE_MINEABLE)
+            .add(DiscWorkshop.id("disc_workshop"));
 	}
 
 }

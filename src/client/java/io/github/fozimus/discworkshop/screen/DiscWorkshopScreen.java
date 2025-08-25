@@ -1,13 +1,17 @@
 package io.github.fozimus.discworkshop.screen;
 
+import org.joml.Matrix3x2fStack;
+
 import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.network.UrlPayload;
 import io.github.fozimus.discworkshop.screenhandler.DiscWorkshopScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ingame.AnvilScreen;
+import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -81,19 +85,18 @@ public class DiscWorkshopScreen extends HandledScreen<DiscWorkshopScreenHandler>
     }
     
 	@Override
-	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
-
+	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {        
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
         ItemStack item = handler.getBlockEntity().getCraftingResult();
 
         if (item.isEmpty()) return;
 
-        MatrixStack matrices = context.getMatrices();
+        Matrix3x2fStack matrices = context.getMatrices();
         
-        matrices.push();
-        matrices.translate(x + 10, y + 5, 0);
-        matrices.scale(5, 5, 1);
+        matrices.pushMatrix();
+        matrices.translate(x + 10, y + 5);
+        matrices.scale(5, 5);
         context.drawItem(item, 0, 0);
-        matrices.pop();
+        matrices.popMatrix();
 	}
 }

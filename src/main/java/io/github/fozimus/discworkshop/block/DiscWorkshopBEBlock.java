@@ -13,8 +13,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager.Builder;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
@@ -26,8 +27,7 @@ import net.minecraft.world.World;
 
 public class DiscWorkshopBEBlock extends BlockWithEntity {
     public static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 11.0, 16.0);
-
-	public static final DirectionProperty FACING = DirectionProperty.of("facing");
+	public static final EnumProperty<Direction> FACING = EnumProperty.of("facing", Direction.class);
     public static final MapCodec<DiscWorkshopBEBlock> CODEC = DiscWorkshopBEBlock.createCodec(DiscWorkshopBEBlock::new);
     
     public DiscWorkshopBEBlock(Settings settings) {
@@ -46,7 +46,7 @@ public class DiscWorkshopBEBlock extends BlockWithEntity {
                 playerEntity.openHandledScreen(discWorkshopBlockEntity);
             }
         }
-        return ActionResult.success(world.isClient);
+        return world.isClient ? ActionResult.SUCCESS : ActionResult.CONSUME;
     }
 
 	@Override
@@ -61,7 +61,7 @@ public class DiscWorkshopBEBlock extends BlockWithEntity {
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        world.setBlockState(pos, state.with(FACING, Direction.fromRotation(placer.headYaw).getOpposite()));
+        world.setBlockState(pos, state.with(FACING, Direction.fromHorizontalDegrees(placer.headYaw).getOpposite()));
         super.onPlaced(world, pos, state, placer, itemStack);
     }
     
@@ -81,14 +81,14 @@ public class DiscWorkshopBEBlock extends BlockWithEntity {
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
+    protected void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
+        if (state.getBlock() != world.getBlockState(pos).getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DiscWorkshopBlockEntity discWorkshopBlockEntity) {
                 ItemScatterer.spawn(world, pos, discWorkshopBlockEntity);
                 world.updateComparators(pos, this);
             }
-            super.onStateReplaced(state, world, pos, newState, moved);
+            super.onStateReplaced(state, world, pos, moved);
         }
     }
 }

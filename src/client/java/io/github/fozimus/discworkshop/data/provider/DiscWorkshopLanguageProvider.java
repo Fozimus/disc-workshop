@@ -35,7 +35,7 @@ public class DiscWorkshopLanguageProvider extends FabricLanguageProvider {
 	public void generateTranslations(WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(ItemInit.MUSIC_DISC, "Music disc");
         translationBuilder.add(ItemInit.BLANK_DISC, "Blank disc");
-        translationBuilder.add(BlockInit.DISC_WORKSHOP_BE_BLOCK, "Disc workshop");
+        translationBuilder.add(BlockInit.DISC_WORKSHOP_BE_BLOCK.asItem(), "Disc workshop");
         addText(translationBuilder, DiscWorkshopBlockEntity.TITLE, "Disc workshop");
         addText(translationBuilder, ItemGroupInit.DISC_WORKSHOP_GROUP_TITLE, "Disc Workshop");
 

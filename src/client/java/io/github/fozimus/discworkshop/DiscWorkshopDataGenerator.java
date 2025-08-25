@@ -16,7 +16,6 @@ public class DiscWorkshopDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(DiscWorkshopLanguageProvider::new);
         pack.addProvider(DiscWorkshopBlockLootTableProvider::new);
         pack.addProvider(DiscWorkshopBlockTagProvider::new);
-        pack.addProvider(DiscWorkshopRecipeProvider::new);
-        
+        pack.addProvider(DiscWorkshopRecipeProvider::new);        
 	}
 }

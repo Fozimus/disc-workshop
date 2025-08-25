@@ -28,8 +28,6 @@ import com.google.gson.JsonParser;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.config.ClientConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
 
 public class AudioDownloader {
     private static final String GITHUB_DOWNLOAD_URL = "https://github.com/%s/releases/latest/download/%s";
