@@ -12,8 +12,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -177,7 +179,7 @@ public class AudioDownloader {
         CompletableFuture.supplyAsync(() -> {
                 Process process;
                 try {
-                    process = Runtime.getRuntime().exec(new String[]{
+                    String[] cmd = new String[] {
                             YT_DLP_EXE.toString(), url, "-x", "--no-progress", "--concat-playlist", "always", "--add-metadata",
                             "-P", DOWNLOAD_FOLDER.toString(), "--break-match-filter", "ext~=3gp|aac|flv|m4a|mov|mp3|mp4|ogg|wav|webm|opus",
                             "--audio-quality", ClientConfig.INSTANCE.quality.quality,
@@ -185,7 +187,11 @@ public class AudioDownloader {
                             "--ffmpeg-location", FFMPEG_EXE.toString(),
                             "--postprocessor-args", String.format("ffmpeg:-ac 1"),
                             "-o", String.format("%%(playlist_autonumber&{}|)s%s.%%(ext)s", fileName)
-                        });
+                    };
+
+                    ProcessBuilder builder = new ProcessBuilder(List.of(cmd));
+                    DiscWorkshop.LOGGER.debug("Running command: {}", String.join(" ", builder.command().stream().map(it -> "'" + it + "'").toList()));
+                    process = builder.start();
 
                     try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
                         for (String line; (line = errorReader.readLine()) != null;) {

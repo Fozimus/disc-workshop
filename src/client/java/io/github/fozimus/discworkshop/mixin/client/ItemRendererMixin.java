@@ -11,13 +11,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.github.fozimus.discworkshop.DiscWorkshop;
 import io.github.fozimus.discworkshop.data.model.MusicDiscItemModel.MusicDiscSprite;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.MatrixUtil;
 
 //TODO: use a proper Custom model instead of this hack
 // https://wiki.fabricmc.net/tutorial:custom_model
@@ -26,7 +31,64 @@ abstract public class ItemRendererMixin {
     @Shadow
     private static int getTint(int[] tints, int index) {
         throw new RuntimeException();		
+	}    
+
+    @Shadow
+    private static VertexConsumer getSpecialItemGlintConsumer(VertexConsumerProvider consumers, RenderLayer layer, MatrixStack.Entry matrix) {
+        throw new RuntimeException();		
+    }
+
+    @Shadow
+	private static VertexConsumer getItemGlintConsumer(VertexConsumerProvider vertexConsumers, RenderLayer layer, boolean solid, boolean glint) {
+        throw new RuntimeException();		
 	}
+
+    @Shadow
+    private static void renderBakedItemQuads(
+        MatrixStack matrices,
+        VertexConsumer vertexConsumer,
+        List<BakedQuad> quads,
+        int[] tints,
+        int light,
+        int overlay
+    )  {        
+        throw new RuntimeException();		
+    }
+
+    
+    @Inject(at = @At("HEAD"), method = "renderItem", cancellable = true)
+    private static void renderItem(
+        ItemDisplayContext displayContext,
+		MatrixStack matrices,
+		VertexConsumerProvider vertexConsumers,
+		int light,
+		int overlay,
+		int[] tints,
+		List<BakedQuad> quads,
+		RenderLayer layer,
+		ItemRenderState.Glint glint,
+        CallbackInfo ci
+    ) {        
+        if (!quads.isEmpty() && quads.getFirst().sprite() instanceof MusicDiscSprite) {
+            VertexConsumer vertexConsumer;
+            if (glint == ItemRenderState.Glint.SPECIAL) {
+                MatrixStack.Entry entry = matrices.peek().copy();
+                if (displayContext == ItemDisplayContext.GUI) {
+                    MatrixUtil.scale(entry.getPositionMatrix(), 0.5F);
+                } else if (displayContext.isFirstPerson()) {
+                    MatrixUtil.scale(entry.getPositionMatrix(), 0.75F);
+                }
+
+                vertexConsumer = getSpecialItemGlintConsumer(vertexConsumers, layer, entry);
+            } else {
+                vertexConsumer = getItemGlintConsumer(vertexConsumers, layer, true, glint != ItemRenderState.Glint.NONE);
+            }
+
+            renderBakedItemQuads(matrices, vertexConsumer, quads, tints, light, overlay);        
+            ci.cancel();
+        }
+    }
+
     
     @Inject(at = @At("HEAD"), method = "renderBakedItemQuads", cancellable = true)
     private static void renderBakedItemQuads(
@@ -39,7 +101,6 @@ abstract public class ItemRendererMixin {
         CallbackInfo ci
     ) {
         if (!quads.isEmpty() && quads.getFirst().sprite() instanceof MusicDiscSprite musicDisc) {
-
             List<Integer> pattern = musicDisc.getPattern();
             
             for (BakedQuad bakedQuad : quads) {                
@@ -82,8 +143,6 @@ abstract public class ItemRendererMixin {
                     vertexConsumer.quad(entry, bakedQuad, r, g, b, a, light, overlay);
                 }                
             }
-
-            ci.cancel();
         }
 	}
 }
