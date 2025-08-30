@@ -99,13 +99,12 @@ abstract public class ItemRendererMixin {
         int light,
         int overlay,
         CallbackInfo ci
-    ) {
+    ) {        
         if (!quads.isEmpty() && quads.getFirst().sprite() instanceof MusicDiscSprite musicDisc) {
             List<Integer> pattern = musicDisc.getPattern();
             
             for (BakedQuad bakedQuad : quads) {                
-                Identifier texture = bakedQuad.sprite().getContents().getId();                
-
+                Identifier texture = bakedQuad.sprite().getContents().getId();
                 if (texture.equals(DiscWorkshop.id("item/music_disc_pixel"))) {
                     int i = 0;
                     for (int row = 0; row < 3; ++row) {
@@ -143,6 +142,7 @@ abstract public class ItemRendererMixin {
                     vertexConsumer.quad(entry, bakedQuad, r, g, b, a, light, overlay);
                 }                
             }
+            ci.cancel();
         }
 	}
 }
